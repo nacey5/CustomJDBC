@@ -1,3 +1,5 @@
+package jdbc;
+
 import org.junit.Test;
 
 import java.sql.Connection;
@@ -7,7 +9,7 @@ import java.sql.SQLException;
 import static org.junit.Assert.assertNotNull;
 
 /**
- * @ClassName CustomJDBCDriverTest
+ * @ClassName jdbc.CustomJDBCDriverTest
  * @Description TODO
  * @Author DaHuangGo
  * @Date 2023/9/29 21:52
