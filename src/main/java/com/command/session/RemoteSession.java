@@ -2,7 +2,6 @@ package com.command.session;
 
 import com.command.Session;
 import com.common.Database;
-import com.uitl.EncryptionUtils;
 
 /**
  * @ClassName RemoteSession
@@ -27,31 +26,17 @@ public class RemoteSession extends Session {
         System.out.println("Encryption successful...");
         // 在这里添加加密代码
         try {
-            // 加密数据库名称
-            String encryptedDatabaseName = EncryptionUtils.encrypt(databaseName);
-
-            // 远程加密逻辑
-            // 在这里使用 encryptedDatabaseName 连接远程服务并创建数据库
-
-            // 返回是否创建成功
-            return super.createDatabase(encryptedDatabaseName);
+            return super.createDatabase(databaseName);
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
         }
+       return false;
     }
 
     @Override
     public Database getDatabase(String databaseName) {
         try {
-            // 加密数据库名称
-            String encryptedDatabaseName = EncryptionUtils.encrypt(databaseName);
-
-            // 远程加密逻辑
-            // 在这里使用 encryptedDatabaseName 连接远程服务
-
-            // 返回实际的数据库
-            return super.getDatabase(encryptedDatabaseName);
+            return super.getDatabase(databaseName);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

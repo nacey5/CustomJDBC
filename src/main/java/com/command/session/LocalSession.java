@@ -26,7 +26,7 @@ public class LocalSession extends Session {
     }
 
     @Override
-    public boolean createDatabase(String databaseName) {
+    public boolean createDatabase(String databaseName) throws Exception {
         return super.createDatabase(databaseName);
     }
 }

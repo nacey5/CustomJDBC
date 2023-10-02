@@ -14,9 +14,9 @@ import static org.mockito.Mockito.when;
  * @Version 0.0.1
  **/
 public class Before {
-    public static void bofore(){
-        GlobalBo.session = mock(Session.class);
-        when(GlobalBo.session.getSessionId()).thenReturn("test_session");
-        when(GlobalBo.session.createDatabase(anyString())).thenReturn(true);
+    public static void bofore() throws Exception {
+//        GlobalBo.session = mock(Session.class);
+//        when(GlobalBo.session.getSessionId()).thenReturn("test_session");
+//        when(GlobalBo.session.createDatabase(anyString())).thenReturn(true);
     }
 }

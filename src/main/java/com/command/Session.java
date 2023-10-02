@@ -2,6 +2,7 @@ package com.command;
 
 import com.command.session.RemoteSession;
 import com.common.Database;
+import com.uitl.EncryptionUtil;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -12,7 +13,7 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.uitl.EncryptionUtils.*;
+//import static com.uitl.EncryptionUtils.*;
 
 /**
  * @ClassName Session
@@ -34,33 +35,30 @@ public abstract class Session {
         return sessionId;
     }
 
-    protected  Database getDatabase(String databaseName) throws Exception {
-        if (this instanceof RemoteSession){
-          return   databases.get(decryptDatabaseName(databaseName));
+    protected Database getDatabase(String databaseName) throws Exception {
+        if (this instanceof RemoteSession) {
+            //todo 解密
+            return databases.get("");
         }
         return databases.get(databaseName);
     }
 
-    protected boolean createDatabase(String databaseName){
+    protected boolean createDatabase(String databaseName) throws Exception {
+        if (this instanceof RemoteSession) {
+            databaseName = EncryptionUtil.encrypt(databaseName, EncryptionUtil.generateSecretKey());
+            return createDatabase0(databaseName);
+        }
+        return createDatabase0(databaseName);
+    }
+
+
+    private boolean createDatabase0(String databaseName) {
         if (!databases.containsKey(databaseName)) {
             Database database = new Database(databaseName);
             databases.put(databaseName, database);
             return true;
         }
         return false;
-    }
-
-    private static String decryptDatabaseName(String encryptedDatabaseName) throws Exception {
-        byte[] salt = ENCRYPTION_SALT.getBytes();
-        KeySpec keySpec = new PBEKeySpec(ENCRYPTION_SALT.toCharArray(), salt, ITERATION_COUNT, 32); // Add KEY_LENGTH parameter
-        SecretKeyFactory factory = SecretKeyFactory.getInstance(ENCRYPTION_ALGORITHM);
-        SecretKey key = factory.generateSecret(keySpec);
-
-        Cipher cipher = Cipher.getInstance(ENCRYPTION_ALGORITHM);
-        cipher.init(Cipher.DECRYPT_MODE, key);
-
-        byte[] decryptedData = cipher.doFinal(Base64.getDecoder().decode(encryptedDatabaseName));
-        return new String(decryptedData);
     }
 
 }
